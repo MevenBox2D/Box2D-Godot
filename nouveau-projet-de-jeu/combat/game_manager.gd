@@ -43,6 +43,8 @@ func _setup_weapon(bow: BowWeapon, character: Character, projectile_layer: int, 
 	bow.target_layer = target_layer
 
 func _on_character_died(character: Character) -> void:
+	if _combat_over:
+		return
 	_pending_deaths.append(character)
 	# Laisse une frame pour qu'un éventuel double K.O. soit détecté avant de conclure
 	call_deferred("_resolve_combat_end")
@@ -53,6 +55,8 @@ func _resolve_combat_end() -> void:
 	_combat_over = true
 	_bow_a.set_physics_process(false)
 	_bow_b.set_physics_process(false)
+	_character_a.freeze = true
+	_character_b.freeze = true
 
 	if _pending_deaths.size() >= 2:
 		_show_result("Match nul !")
