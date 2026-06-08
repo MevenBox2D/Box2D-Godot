@@ -55,21 +55,27 @@ Exclus (hors scope, pour itérations futures) :
   - `var opponent: Character` : référence à l'adversaire, assignée par le `GameManager`
     au lancement du combat (sert de cible pour l'arme — "l'adversaire le plus proche"
     se réduit ici à "l'unique adversaire").
-- Barre de vie : nœud enfant (ex. `TextureProgressBar` ou `ProgressBar` dans un
-  `Node2D`) positionné au-dessus du cercle, dont la rotation est compensée pour rester
-  horizontale indépendamment de la rotation physique du corps.
+- Barre de vie : nœud séparé, **non rattaché à la hiérarchie du corps physique**
+  (ex. enfant direct de la scène de combat ou d'un `CanvasLayer`), repositionné chaque
+  frame sur la position du personnage (`global_position`) sans copier sa rotation —
+  ce qui évite tout calcul de contre-rotation et garde la barre toujours horizontale.
 
 ### 3. Arme — Arc (`BowWeapon`)
 
 - Scène attachée au personnage via un `RapierPinJoint2D` (pivot proche du centre du
-  cercle), ce qui permet à l'arme physiquement de réagir aux chocs (léger débattement)
-  tout en restant globalement solidaire du personnage.
+  cercle), configuré en mode **"Motor Position"** (le joint expose `target_angle`,
+  `stiffness`, `damping`) : c'est ce moteur du joint — et non une rotation directe du
+  nœud — qui pilote l'orientation de l'arme. Cela permet à l'arme de rester
+  physiquement solidaire (réagit aux chocs, débattement limité par `stiffness`/
+  `damping`) tout en étant activement orientée par le script. Le script de l'arme se
+  contente de mettre à jour `target_angle` selon l'état courant ; le joint se charge
+  de la convergence physique vers cet angle.
 - Script `bow_weapon.gd` piloté par une **machine à états** :
 
   | État | Comportement |
   |---|---|
-  | `TRACKING` | Interpole en douceur (`lerp_angle`) la rotation de l'arme vers la position de `character.opponent`. Après un délai/cooldown, transition vers `DRAWING`. |
-  | `DRAWING` | Joue une animation (`AnimationPlayer`) de bandage de la corde ; le suivi de la cible est figé ou ralenti pour mimer la concentration du tir. À la fin de l'animation, transition vers `FIRING`. |
+  | `TRACKING` | Met à jour en continu `joint.target_angle` vers la direction de `character.opponent` (le moteur du joint assure une convergence progressive et physiquement plausible). Après un délai/cooldown, transition vers `DRAWING`. |
+  | `DRAWING` | Joue une animation (`AnimationPlayer`) de bandage de la corde ; `target_angle` est **figé** à sa dernière valeur (pas de poursuite de cible pendant cette phase, pour un ressenti de "concentration du tir" net et prévisible). À la fin de l'animation, transition vers `FIRING`. |
   | `FIRING` | Instancie une flèche (scène `Arrow`) au niveau de l'encoche, lui applique une vitesse initiale dans la direction visée, puis transition vers `COOLDOWN`. |
   | `COOLDOWN` | Pause avant de revenir en `TRACKING`. |
 
@@ -77,9 +83,15 @@ Exclus (hors scope, pour itérations futures) :
   - `RapierRigidBody2D` de forme simple (cercle ou capsule), affectée par la gravité
     une fois lancée (trajectoire balistique).
   - Porte une valeur `damage: int` et une zone de détection (`RapierArea2D`) en hitbox.
-  - Au contact d'un personnage adverse : appelle `take_damage(damage)` sur celui-ci,
-    puis se détruit (`queue_free`). Au contact de l'arène ou de son propriétaire,
-    se détruit également sans infliger de dégâts.
+    `RapierArea2D` étend directement `Area2D` sans redéfinir ses signaux : on utilise
+    donc le signal natif `body_entered(body)` pour détecter le contact avec un
+    personnage ou un mur, exactement comme avec un `Area2D` standard.
+  - **Anti-auto-collision** : la flèche est assignée aux calques de collision
+    (`collision_layer`/`collision_mask`) de façon à ignorer son tireur dès
+    l'instanciation (elle ne peut entrer en collision qu'avec l'adversaire et les murs
+    de l'arène). Au contact d'un personnage adverse : appelle `take_damage(damage)`
+    puis se détruit (`queue_free`). Au contact de l'arène : se détruit sans infliger
+    de dégâts.
 
 ### 4. Système de dégâts et fin de combat
 
@@ -91,6 +103,21 @@ Exclus (hors scope, pour itérations futures) :
   - Écoute le signal `died` de chaque personnage.
   - À réception de `died` : désactive les armes (arrêt de la state machine), stoppe
     le combat, affiche un message de victoire pour l'adversaire restant.
+  - **Cas du double K.O.** (les deux `died` arrivent dans la même frame, ex. deux
+    flèches simultanées) : le combat se termine sur un **match nul**, signalé par un
+    message dédié plutôt qu'une "victoire" — aucun des deux personnages n'est désigné
+    vainqueur.
+
+## Paramètres à calibrer expérimentalement
+
+Cette spec ne fixe pas de valeurs numériques précises : elles devront être ajustées
+en jeu pour obtenir un combat lisible et intéressant à regarder. À exposer comme
+constantes/`@export` facilement réglables :
+- Dégâts par flèche (`damage`), vitesse initiale du projectile.
+- Durées des états `TRACKING` (avant bandage), `DRAWING` (durée de l'animation),
+  `COOLDOWN` (avant de reviser).
+- `stiffness`/`damping` du joint de l'arme (réactivité vs stabilité du tracking).
+- Dimensions de l'arène et distance entre les deux points de spawn.
 
 ## Notes d'implémentation
 
