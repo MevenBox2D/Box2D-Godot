@@ -14,7 +14,7 @@ const ArrowScene := preload("res://weapons/bow/arrow.tscn")
 @export var projectile_layer: int = CombatLayers.PROJECTILE_A
 @export var target_layer: int = CombatLayers.CHARACTER_B
 
-@onready var _animation_player: AnimationPlayer = $AnimationPlayer
+@onready var _animation_player: AnimationPlayer = $AnimationPlayer  # NOTE: the "draw" animation's Sprite2D:scale keyframes are absolute values and must be kept in sync with Sprite2D's base scale (Vector2(0.1, 0.1)) if it changes in the editor
 @onready var _nock_point: Marker2D = $NockPoint
 
 var _state: State = State.TRACKING
@@ -55,7 +55,7 @@ func _on_animation_finished(anim_name: StringName) -> void:
 		_fire()
 
 func _fire() -> void:
-	_state = State.FIRING
+	_state = State.FIRING  # momentary/symbolic: instantiation + launch happen synchronously below, then we immediately move to COOLDOWN, so this state is never observed externally
 	var arrow: Arrow = ArrowScene.instantiate()
 	get_tree().current_scene.add_child(arrow)
 	arrow.global_position = _nock_point.global_position
