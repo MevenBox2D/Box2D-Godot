@@ -1,13 +1,20 @@
 class_name HealthBar
 extends Node2D
 
-@export var target: Character
+@export var target: Character:
+	set(value):
+		if target and target.hp_changed.is_connected(_on_hp_changed):
+			target.hp_changed.disconnect(_on_hp_changed)
+		target = value
+		if target:
+			target.hp_changed.connect(_on_hp_changed)
+			if _progress_bar:
+				_on_hp_changed(target.current_hp, Character.MAX_HP)
 
 @onready var _progress_bar: ProgressBar = $ProgressBar
 
 func _ready() -> void:
-	if target:
-		target.hp_changed.connect(_on_hp_changed)
+	if target and _progress_bar:
 		_on_hp_changed(target.current_hp, Character.MAX_HP)
 
 func _process(_delta: float) -> void:
