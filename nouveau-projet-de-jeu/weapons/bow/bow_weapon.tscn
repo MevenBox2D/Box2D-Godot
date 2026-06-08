@@ -1,0 +1,22 @@
+[gd_scene load_steps=5 format=3 uid="uid://c1u2e7m6gqkqf"]
+
+[ext_resource type="Script" uid="uid://unwhnooi7g2c" path="res://addons/godot-rapier2d/custom_nodes/rapier_rigid_body_2d.gd" id="1_rapier"]
+[ext_resource type="Script" path="res://weapons/bow/bow_weapon.gd" id="2_bow"]
+[ext_resource type="Texture2D" uid="uid://dyf2tlsdgaykh" path="res://icon.svg" id="3_icon"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_bow"]
+size = Vector2(8, 32)
+
+[node name="BowWeapon" type="RigidBody2D"]
+script = ExtResource("2_bow")
+metadata/_custom_type_script = "uid://unwhnooi7g2c"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("RectangleShape2D_bow")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+scale = Vector2(0.1, 0.1)
+texture = ExtResource("3_icon")
+
+[node name="NockPoint" type="Marker2D" parent="."]
+position = Vector2(20, 0)
