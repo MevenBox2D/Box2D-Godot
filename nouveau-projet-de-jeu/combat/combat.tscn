@@ -1,0 +1,73 @@
+[gd_scene load_steps=8 format=3 uid="uid://b5j2x6n0qf3yt"]
+
+[ext_resource type="Script" path="res://combat/game_manager.gd" id="1_game_manager"]
+[ext_resource type="PackedScene" uid="uid://c8q3yqrr5xupm" path="res://arena/arena.tscn" id="2_arena"]
+[ext_resource type="PackedScene" uid="uid://dqx5p3w8kq8a" path="res://character/character.tscn" id="3_character"]
+[ext_resource type="PackedScene" uid="uid://c1u2e7m6gqkqf" path="res://weapons/bow/bow_weapon.tscn" id="4_bow"]
+[ext_resource type="PackedScene" uid="uid://c8r7yqj0v5w2x" path="res://character/health_bar.tscn" id="5_health_bar"]
+[ext_resource type="Script" uid="uid://bv2bc4lt5v7hu" path="res://addons/godot-rapier2d/custom_nodes/rapier_pin_joint_2d.gd" id="6_pin_joint"]
+
+[node name="Combat" type="Node2D"]
+script = ExtResource("1_game_manager")
+
+[node name="Arena" parent="." instance=ExtResource("2_arena")]
+
+[node name="CharacterA" parent="." instance=ExtResource("3_character")]
+position = Vector2(150, 150)
+collision_layer = 2
+collision_mask = 21
+
+[node name="CharacterB" parent="." instance=ExtResource("3_character")]
+position = Vector2(490, 150)
+collision_layer = 4
+collision_mask = 11
+
+[node name="BowA" parent="." instance=ExtResource("4_bow")]
+position = Vector2(150, 150)
+
+[node name="BowB" parent="." instance=ExtResource("4_bow")]
+position = Vector2(490, 150)
+
+[node name="HealthBarA" parent="." instance=ExtResource("5_health_bar")]
+position = Vector2(150, 100)
+
+[node name="HealthBarB" parent="." instance=ExtResource("5_health_bar")]
+position = Vector2(490, 100)
+
+[node name="JointA" type="PinJoint2D" parent="."]
+position = Vector2(150, 150)
+script = ExtResource("6_pin_joint")
+node_a = NodePath("../CharacterA")
+node_b = NodePath("../BowA")
+motor_position_enabled = true
+motor_position_stiffness = 20.0
+motor_position_damping = 5.0
+metadata/_custom_type_script = "uid://bv2bc4lt5v7hu"
+
+[node name="JointB" type="PinJoint2D" parent="."]
+position = Vector2(490, 150)
+script = ExtResource("6_pin_joint")
+node_a = NodePath("../CharacterB")
+node_b = NodePath("../BowB")
+motor_position_enabled = true
+motor_position_stiffness = 20.0
+motor_position_damping = 5.0
+metadata/_custom_type_script = "uid://bv2bc4lt5v7hu"
+
+[node name="ResultLabel" type="Label" parent="."]
+visible = false
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -160.0
+offset_top = -30.0
+offset_right = 160.0
+offset_bottom = 30.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_font_sizes/font_size = 32
+horizontal_alignment = 1
+vertical_alignment = 1
+text = ""
