@@ -1,0 +1,34 @@
+[gd_scene load_steps=6 format=3 uid="uid://b3yqvhxr0wq2a"]
+
+[ext_resource type="Script" uid="uid://unwhnooi7g2c" path="res://addons/godot-rapier2d/custom_nodes/rapier_rigid_body_2d.gd" id="1_rapier"]
+[ext_resource type="Script" path="res://weapons/bow/arrow.gd" id="2_arrow"]
+[ext_resource type="Script" uid="uid://cburu6b4ckehs" path="res://addons/godot-rapier2d/custom_nodes/rapier_area_2d.gd" id="3_area"]
+[ext_resource type="Texture2D" uid="uid://dyf2tlsdgaykh" path="res://icon.svg" id="4_icon"]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_arrow"]
+radius = 4.0
+height = 20.0
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_arrow_hitbox"]
+radius = 5.0
+height = 22.0
+
+[node name="Arrow" type="RigidBody2D"]
+script = ExtResource("2_arrow")
+metadata/_custom_type_script = "uid://unwhnooi7g2c"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+rotation = 1.5707963267948966
+shape = SubResource("CapsuleShape2D_arrow")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+scale = Vector2(0.1, 0.1)
+texture = ExtResource("4_icon")
+
+[node name="RapierArea2D" type="Area2D" parent="."]
+script = ExtResource("3_area")
+metadata/_custom_type_script = "uid://cburu6b4ckehs"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="RapierArea2D"]
+rotation = 1.5707963267948966
+shape = SubResource("CapsuleShape2D_arrow_hitbox")
