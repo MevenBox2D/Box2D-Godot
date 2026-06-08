@@ -8,19 +8,18 @@ extends Node2D
 		target = value
 		if target:
 			target.hp_changed.connect(_on_hp_changed)
-			if _progress_bar:
+			if _label:
 				_on_hp_changed(target.current_hp, Character.MAX_HP)
 
-@onready var _progress_bar: ProgressBar = $ProgressBar
+@onready var _label: Label = $Label
 
 func _ready() -> void:
-	if target and _progress_bar:
+	if target and _label:
 		_on_hp_changed(target.current_hp, Character.MAX_HP)
 
 func _process(_delta: float) -> void:
 	if target:
 		global_position = target.global_position
 
-func _on_hp_changed(current_hp: int, max_hp: int) -> void:
-	_progress_bar.max_value = max_hp
-	_progress_bar.value = current_hp
+func _on_hp_changed(current_hp: int, _max_hp: int) -> void:
+	_label.text = str(current_hp)

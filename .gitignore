@@ -1,6 +1,8 @@
 # Godot-specific ignores
 .godot/
 .import/
+*.tmp
+*.uid
 *.translation
 *.pot
 *.po
