@@ -1,0 +1,84 @@
+[gd_scene format=3 uid="uid://mup7jkv4dg6l"]
+
+[ext_resource type="Script" uid="uid://cv4kpuuujonww" path="res://vehicles/scrip_tank.gd" id="1_n4jpd"]
+[ext_resource type="Script" uid="uid://unwhnooi7g2c" path="res://addons/godot-rapier2d/custom_nodes/rapier_rigid_body_2d.gd" id="1_nip4u"]
+[ext_resource type="Texture2D" uid="uid://cg6tt22rwavec" path="res://vehicles/tank.png" id="2_pg18q"]
+[ext_resource type="Script" uid="uid://bv2bc4lt5v7hu" path="res://addons/godot-rapier2d/custom_nodes/rapier_pin_joint_2d.gd" id="3_ojc05"]
+[ext_resource type="Script" uid="uid://busd3yfk5p1mx" path="res://addons/godot-rapier2d/custom_nodes/rapier_static_body_2d.gd" id="4_5602s"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_ojc05"]
+radius = 11.18034
+
+[sub_resource type="SegmentShape2D" id="SegmentShape2D_n4jpd"]
+a = Vector2(94, 273)
+b = Vector2(586, 273)
+
+[node name="Node2D" type="Node2D" unique_id=1113838426]
+
+[node name="JointSouris" type="PinJoint2D" parent="." unique_id=1660944768]
+
+[node name="tank 1" type="RigidBody2D" parent="." unique_id=278232057]
+input_pickable = true
+mass = 100.0
+script = ExtResource("1_n4jpd")
+metadata/_custom_type_script = "uid://unwhnooi7g2c"
+
+[node name="Tank" type="Sprite2D" parent="tank 1" unique_id=1473492671]
+visible = false
+show_behind_parent = true
+position = Vector2(333.00003, 198.00002)
+scale = Vector2(0.4486486, 0.4486486)
+texture = ExtResource("2_pg18q")
+
+[node name="Chassis" type="CollisionPolygon2D" parent="tank 1" unique_id=1120621453]
+position = Vector2(4, 14)
+polygon = PackedVector2Array(188, 216, 214, 216, 218, 222, 445, 222, 459, 209, 470, 209, 470, 197, 451, 189, 245, 193, 231, 196, 200, 198)
+
+[node name="Turret" type="CollisionPolygon2D" parent="tank 1" unique_id=1770434798]
+polygon = PackedVector2Array(294, 197, 318, 181, 420, 181, 420, 195, 391, 206, 305, 206)
+
+[node name="Communication" type="CollisionPolygon2D" parent="tank 1" unique_id=1961416511]
+polygon = PackedVector2Array(338, 181, 338, 179, 355, 179, 355, 172, 349, 170, 349, 157, 353, 159, 356, 164, 366, 163, 364, 171, 370, 173, 371, 169, 389, 167, 390, 182)
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="tank 1" unique_id=1792761888]
+polygon = PackedVector2Array(299, 197, 177, 167, 179, 159, 310, 189)
+
+[node name="roue 1" type="RigidBody2D" parent="." unique_id=1975272545]
+position = Vector2(261, 241)
+mass = 10.0
+script = ExtResource("1_nip4u")
+metadata/_custom_type_script = "uid://unwhnooi7g2c"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="roue 1" unique_id=1266651802]
+shape = SubResource("CircleShape2D_ojc05")
+
+[node name="RapierPinJoint2D" type="PinJoint2D" parent="roue 1" unique_id=51262577]
+node_a = NodePath("../../tank 1")
+node_b = NodePath("..")
+softness = 8.0
+motor_enabled = true
+script = ExtResource("3_ojc05")
+metadata/_custom_type_script = "uid://bv2bc4lt5v7hu"
+
+[node name="roue 2" type="RigidBody2D" parent="." unique_id=409567999]
+position = Vector2(421, 241)
+mass = 10.0
+script = ExtResource("1_nip4u")
+metadata/_custom_type_script = "uid://unwhnooi7g2c"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="roue 2" unique_id=2041990850]
+shape = SubResource("CircleShape2D_ojc05")
+
+[node name="RapierPinJoint2D" type="PinJoint2D" parent="roue 2" unique_id=904559469]
+node_a = NodePath("../../tank 1")
+node_b = NodePath("..")
+softness = 8.0
+script = ExtResource("3_ojc05")
+metadata/_custom_type_script = "uid://bv2bc4lt5v7hu"
+
+[node name="RapierStaticBody2D" type="StaticBody2D" parent="." unique_id=2129564518]
+script = ExtResource("4_5602s")
+metadata/_custom_type_script = "uid://busd3yfk5p1mx"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="RapierStaticBody2D" unique_id=811639272]
+shape = SubResource("SegmentShape2D_n4jpd")
