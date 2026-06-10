@@ -1,0 +1,24 @@
+[gd_scene format=3 uid="uid://dq8s1n3kfvq4j"]
+
+[ext_resource type="Script" uid="uid://qmgbgbsu3u2e" path="res://weapons/scythe/scythe_weapon.gd" id="1_scythe"]
+[ext_resource type="Texture2D" uid="uid://b7aacabbpv3cx" path="res://weapons/scythe/Scythe_Hold.png" id="2_scythe_hold"]
+[ext_resource type="Script" uid="uid://cburu6b4ckehs" path="res://addons/godot-rapier2d/custom_nodes/rapier_area_2d.gd" id="3_area"]
+
+[node name="ScytheWeapon" type="Node2D" unique_id=1946464577]
+script = ExtResource("1_scythe")
+
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=1753608296]
+position = Vector2(37.698402, 0)
+rotation = 2.268928
+scale = Vector2(0.1, 0.1)
+texture = ExtResource("2_scythe_hold")
+
+[node name="Hitbox" type="Area2D" parent="." unique_id=411007651]
+position = Vector2(37.698402, 0)
+rotation = 2.268928
+script = ExtResource("3_area")
+metadata/_custom_type_script = "uid://cburu6b4ckehs"
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="Hitbox" unique_id=120871293]
+scale = Vector2(0.10000001, 0.10000001)
+polygon = PackedVector2Array(44, -142, -62, -144, -62, -142.3, -64, -141.2, -64, -123.9, -84, -121.8, -84, -103.9, -104, -101.8, -104, -83.9, -124, -81.8, -124, -63.9, -144, -61.800003, -144, -24, -160, -24, -160, 84, -144, 84, -144, 100.79999, -140.8, 104, -123.8, 104, -121.8, 124, -79.2, 124, -76, 120.79999, -76, 44, -58.199997, 44, -56.199997, 24, -24, 24, -24, 41.800003, -4, 43.800003, -4, 120.79999, -0.80000305, 124, 56, 124, 56, 160, 160, 160, 160, 116, 144, 116, 144, 99.20001, 140.79999, 96, 124, 96, 124, 79.2, 120.79999, 76, 103.79999, 76, 101.79999, 56, 63.899994, 56, 61.899994, -4, 44, -4, 44, -36.199997, 61.199997, -38, 64.100006, -38, 61.899994, -84, 24, -96.2, 44, -98.2)

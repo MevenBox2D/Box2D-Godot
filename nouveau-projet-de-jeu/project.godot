@@ -11,6 +11,7 @@ config_version=5
 [application]
 
 config/name="Nouveau projet de jeu"
+run/main_scene="res://combat/combat.tscn"
 config/features=PackedStringArray("4.6", "Forward Plus")
 run/max_fps=240
 config/icon="res://icon.svg"

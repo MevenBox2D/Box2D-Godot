@@ -1,0 +1,27 @@
+[gd_scene format=3 uid="uid://dqx5p3w8kq8a"]
+
+[ext_resource type="Script" uid="uid://cpd1uefoeb32j" path="res://character/character.gd" id="2_character"]
+[ext_resource type="Texture2D" uid="uid://dyf2tlsdgaykh" path="res://icon.svg" id="3_icon"]
+
+[sub_resource type="PhysicsMaterial" id="PhysicsMaterial_1l1n4"]
+friction = 0.0
+bounce = 1.0
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_character"]
+radius = 20.0
+
+[node name="Character" type="RigidBody2D" unique_id=864980056]
+physics_material_override = SubResource("PhysicsMaterial_1l1n4")
+gravity_scale = 0.0
+linear_damp = 0.25
+script = ExtResource("2_character")
+metadata/_custom_type_script = "uid://unwhnooi7g2c"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=583556770]
+shape = SubResource("CircleShape2D_character")
+
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=1976932804]
+scale = Vector2(0.235, 0.235)
+texture = ExtResource("3_icon")
+
+[node name="WeaponAttachPoint" type="Marker2D" parent="." unique_id=959142092]

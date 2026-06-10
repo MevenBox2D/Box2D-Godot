@@ -1,0 +1,32 @@
+[gd_scene format=3 uid="uid://b5j2x6n0qf3yt"]
+
+[ext_resource type="Script" uid="uid://y7eynr7ve435" path="res://combat/game_manager.gd" id="1_game_manager"]
+[ext_resource type="PackedScene" uid="uid://c8q3yqrr5xupm" path="res://arena/arena.tscn" id="2_arena"]
+[ext_resource type="PackedScene" uid="uid://dqx5p3w8kq8a" path="res://character/character.tscn" id="3_character"]
+[ext_resource type="PackedScene" uid="uid://c8r7yqj0v5w2x" path="res://character/health_bar.tscn" id="4_health_bar"]
+[ext_resource type="PackedScene" uid="uid://dq8s1n3kfvq4j" path="res://weapons/scythe/scythe_weapon.tscn" id="5_scythe"]
+[ext_resource type="PackedScene" uid="uid://c1u2e7m6gqkqf" path="res://weapons/bow/bow_weapon.tscn" id="6_bow"]
+
+[node name="Combat" type="Node2D" unique_id=1847779364]
+script = ExtResource("1_game_manager")
+character_scene = ExtResource("3_character")
+weapon_scenes = Array[PackedScene]([ExtResource("6_bow"), ExtResource("5_scythe"), ExtResource("5_scythe")])
+health_bar_scene = ExtResource("4_health_bar")
+
+[node name="Arena" parent="." unique_id=281167560 instance=ExtResource("2_arena")]
+
+[node name="ResultLabel" type="Label" parent="." unique_id=1445010395]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -160.0
+offset_top = -30.0
+offset_right = 160.0
+offset_bottom = 30.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_font_sizes/font_size = 32
+horizontal_alignment = 1
+vertical_alignment = 1

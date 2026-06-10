@@ -1,0 +1,55 @@
+[gd_scene format=3 uid="uid://c1u2e7m6gqkqf"]
+
+[ext_resource type="Script" uid="uid://d18aaxw5wpa7o" path="res://weapons/projectile_weapon.gd" id="2_bow"]
+[ext_resource type="Texture2D" uid="uid://b3p5o2uum7wlk" path="res://weapons/bow/Bow_Hold.png" id="3_bow_hold"]
+[ext_resource type="PackedScene" uid="uid://b3yqvhxr0wq2a" path="res://weapons/bow/arrow.tscn" id="4_arrow"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_draw_0"]
+atlas = ExtResource("3_bow_hold")
+region = Rect2(0, 0, 320, 320)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_draw_1"]
+atlas = ExtResource("3_bow_hold")
+region = Rect2(320, 0, 320, 320)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_draw_2"]
+atlas = ExtResource("3_bow_hold")
+region = Rect2(0, 320, 320, 320)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_draw_3"]
+atlas = ExtResource("3_bow_hold")
+region = Rect2(320, 320, 320, 320)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_fd26s"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_draw_0")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_draw_1")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_draw_2")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_draw_3")
+}],
+"loop": false,
+"name": &"draw",
+"speed": 5.0
+}]
+
+[node name="BowWeapon" type="Node2D" unique_id=1968982238]
+script = ExtResource("2_bow")
+projectile_scene = ExtResource("4_arrow")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=766585118]
+position = Vector2(20, 0)
+rotation = 2.3561945
+scale = Vector2(0.1, 0.1)
+sprite_frames = SubResource("SpriteFrames_fd26s")
+animation = &"draw"
+
+[node name="SpawnPoint" type="Marker2D" parent="." unique_id=235291981]
+position = Vector2(20, 0)

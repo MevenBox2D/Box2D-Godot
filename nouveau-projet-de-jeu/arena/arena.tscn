@@ -1,0 +1,57 @@
+[gd_scene format=3 uid="uid://c8q3yqrr5xupm"]
+
+[ext_resource type="Script" uid="uid://busd3yfk5p1mx" path="res://addons/godot-rapier2d/custom_nodes/rapier_static_body_2d.gd" id="1_arena"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_h"]
+size = Vector2(340, 20)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_v"]
+size = Vector2(20, 300)
+
+[node name="Arena" type="Node2D" unique_id=1746860232]
+
+[node name="TopWall" type="StaticBody2D" parent="." unique_id=1664824163]
+position = Vector2(320, 20)
+script = ExtResource("1_arena")
+metadata/_custom_type_script = "uid://busd3yfk5p1mx"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="TopWall" unique_id=687379866]
+shape = SubResource("RectangleShape2D_h")
+
+[node name="BottomWall" type="StaticBody2D" parent="." unique_id=1199841814]
+position = Vector2(320, 340)
+script = ExtResource("1_arena")
+metadata/_custom_type_script = "uid://busd3yfk5p1mx"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="BottomWall" unique_id=868737567]
+shape = SubResource("RectangleShape2D_h")
+
+[node name="LeftWall" type="StaticBody2D" parent="." unique_id=1934338478]
+position = Vector2(160, 180)
+script = ExtResource("1_arena")
+metadata/_custom_type_script = "uid://busd3yfk5p1mx"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="LeftWall" unique_id=1841881104]
+shape = SubResource("RectangleShape2D_v")
+
+[node name="RightWall" type="StaticBody2D" parent="." unique_id=1401290493]
+position = Vector2(480, 180)
+script = ExtResource("1_arena")
+metadata/_custom_type_script = "uid://busd3yfk5p1mx"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="RightWall" unique_id=554651972]
+shape = SubResource("RectangleShape2D_v")
+
+[node name="SpawnPoints" type="Node2D" parent="." unique_id=100000001]
+
+[node name="SpawnPoint0" type="Marker2D" parent="SpawnPoints" unique_id=246035282]
+position = Vector2(210, 70)
+
+[node name="SpawnPoint1" type="Marker2D" parent="SpawnPoints" unique_id=100000002]
+position = Vector2(430, 70)
+
+[node name="SpawnPoint2" type="Marker2D" parent="SpawnPoints" unique_id=100000003]
+position = Vector2(210, 290)
+
+[node name="SpawnPoint3" type="Marker2D" parent="SpawnPoints" unique_id=1108834781]
+position = Vector2(430, 290)
